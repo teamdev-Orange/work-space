@@ -1,0 +1,88 @@
+.brock{
+    width: 1.5rem;
+}
+.zBrock{
+    position: relative;
+    display: flex;
+}
+
+.zBrock .brock3{
+    position: absolute;
+    left: 24px;
+    top: 24.2px;
+}
+.zBrock .brock4{
+    position: absolute;
+    left: 48.4px;
+    top: 24.2px;;
+}
+
+.iBrock{
+    display: flex;
+}
+
+.jBrock{
+    display: flex;
+    position: relative;
+}
+
+.jBrock .brock4{
+    position: absolute;
+    top: 24.2px;
+    left: 48px;
+}
+
+.lBrock{
+    display: flex;
+    position: relative;
+}
+
+.lBrock .brock4{
+    position: absolute;
+    top: -24.2px;
+    left: 48px;
+}
+
+.oBrock{
+    display: flex;
+    position: relative;
+}
+
+.oBrock .brock3{
+    position: absolute;
+    top: 24.2px;
+}
+
+.oBrock .brock4{
+    position: absolute;
+    top: 24.2px;
+    left: 24px;
+}
+
+.tBrock{
+    display: flex;
+    position: relative;
+}
+
+.tBrock .brock4{
+    position: absolute;
+    top: 24.2px;
+    left: 24px;
+}
+
+.sBrock{
+    display: flex;
+    position: relative;
+}
+
+.sBrock .brock3{
+    position: absolute;
+    left: 24px;
+    top: -24.2px;
+}
+
+.sBrock .brock4{
+    position: absolute;
+    top: -24.2px;
+    left: 48px;
+}
