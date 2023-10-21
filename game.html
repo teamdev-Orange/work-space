@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>TETRIS</title>
-    <link rel="stylesheet" href="game.css">
+    <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
     <h1 class="tetris">TETRIS</h1>
@@ -15,7 +15,16 @@
 </div>
 
 <div>
+    <p><strong>SCORE</strong></p>
+</div>
+
+<div style="text-align: center;">
     <button class="startpause">Start/Pause</button>
+</div>
+
+<div class="game-container">
+    <div class="main-board"></div>
+    <div class="next-block"></div>
 </div>
 
 <div id="modal" class="modal">
@@ -25,7 +34,6 @@
         <p>ここにTETRISの遊び方を書きます。</p>
     </div>
 </div>
-
 <script src="game.js"></script>
 </body>
 </html>
