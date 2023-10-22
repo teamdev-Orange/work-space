@@ -19,3 +19,25 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+//ブロックの操作//
+document.addEventListener('keydown', function(event){
+    switch(event.keyCode){
+        case 37: //左矢印//
+            moveBlockLeft();
+            break;
+        case 39: //右矢印//
+            moveBlockRight();
+            break;
+        case 40: //下矢印//
+            increaseDropSpeed();
+            break;
+        case 38: //上矢印//
+            rotateBlock();
+            break;
+    }
+});
+
+function moveBlockLeft(){
+    
+}
