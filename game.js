@@ -39,5 +39,20 @@ document.addEventListener('keydown', function(event){
 });
 
 function moveBlockLeft(){
-    
+    //1.ブロックの現在地を取得//
+    const currentBlock = document.getElementById('fallingBrock');
+    const currentPosition = currentBlock.getBoundingClientRect();
+
+    //2.ゲームボードの左端の値//
+    const gameBoard = document.querySelector('.game-container .main-board');
+    const gameBoardPosition = gameBoard.getBoundingClientRect();
+
+    // 3.ブロックがゲームボードの左端に達しているか確認//
+    if (currentPosition.left > gameBoardPosition.left) {
+        // 他のブロックとの衝突判定を追加//
+
+        // 4. ブロックを左に移動//
+        const moveDistance = 24; // 24は1ブロックの幅に基づく値. あとで調整//
+        currentBlock.style.left = (currentPosition.left - moveDistance) + 'px';
+    }
 }
