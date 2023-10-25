@@ -20,6 +20,8 @@ window.onclick = function(event) {
     }
 }
 
+
+
 //ブロックの操作//
 document.addEventListener('keydown', function(event){
     switch(event.keyCode){
@@ -37,6 +39,7 @@ document.addEventListener('keydown', function(event){
             break;
     }
 });
+
 
 function moveBlockLeft(){
     
