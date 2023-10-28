@@ -64,13 +64,29 @@ export class Asset {
     "J":"orange",
   }
 
-  constructor(x=0,y=0,BlockType){
-    this.x=x
-    this.y=y
-    //ブロックの移動を判定するときに空のブロックを作る
-    if (BlockType>=0) {
-      this.setType(BlockType)
+  constructor(x = 0, y = 0, BlockType) {
+    this.x = x;
+    this.y = y;
+    this.board = [];
+    for (let i = 0; i < 20; i++) {
+      this.board.push(new Array(10).fill(0));
     }
+    if (BlockType >= 0) {
+      this.setType(BlockType);
+    }
+  }
+
+  checkFullRows() {
+    for (let y = 0; y < this.board.length; y++) {
+      if (this.board[y].every(cell => cell === 1)) {
+        this.clearRow(y);
+      }
+    }
+  }
+  
+  clearRow(rowNumber) {
+    this.board.splice(rowNumber, 1);
+    this.board.unshift(new Array(10).fill(0));
   }
 
   setType(BlockType){
