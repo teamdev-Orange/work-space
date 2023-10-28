@@ -150,7 +150,7 @@ class Block {
             testX + x >= canvas.width ||
             testX + x < 0 ||
             // 他のブロックとの衝突 ここのgameBoardは仮置き
-            gameBoard[testY + y][testX + x]
+            gameBoard.board[testY + y][testX + x] // この部分をgameBoardの状態を考慮に入れて更新
           )) {
           return false;
         }
@@ -300,4 +300,26 @@ function isBlockOutOfBound() {
   }
 
 
-  
+let gameBoard = new GameBoard();
+
+class GameBoard {
+  constructor() {
+    this.board = [];
+    for (let i = 0; i < 20; i++) {
+      this.board.push(new Array(10).fill(0));
+    }
+  }
+
+  checkFullRows() {
+    for (let y = 0; y < this.board.length; y++) {
+      if (this.board[y].every(cell => cell === 1)) {
+        this.clearRow(y);
+      }
+    }
+  }
+
+  clearRow(rowNumber) {
+    this.board.splice(rowNumber, 1);
+    this.board.unshift(new Array(10).fill(0));
+  }
+}
