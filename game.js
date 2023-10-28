@@ -208,6 +208,61 @@ document.addEventListener('keydown', function(event){
 
 // ブロックが上枠を超えたかどうかをチェックする関数
 function isBlockOutOfBound() {
+  // ... 上枠を超えたブロックをチェックするロジック
+}
+
+// ゲームループ
+function gameLoop() {
+  if (isPaused || isGameOver) return;  // ゲームが一時停止またはゲームオーバーの場合、早期に戻ります
+
+  if (isBlockOutOfBound()) {
+    isGameOver = true;  // ゲームを終了させます
+    showModalWithScore();  // スコアを表示するモーダルを表示します
+    return;
+  }
+
+  // ... ゲームループの残りのロジック
+}
+
+let isGameOver = false;
+
+// スコアを表示するモーダルを表示する関数
+function showModalWithScore() {
+  // スコアを計算します
+  let score = calculateScore();
+  // モーダルのコンテンツを更新します
+  document.querySelector('.modal-content').innerHTML = `
+    <h2>Game Over</h2>
+    <p>Your Score: ${score}</p>
+    <button onclick="retry()">Retry</button>
+  `;
+  // モーダルを表示します
+  modal.style.display = "block";
+}
+
+// スコアを計算する関数 (仮定)
+function calculateScore() {
+  // ... スコア計算ロジック
+}
+
+// リトライするための関数
+function retry() {
+  // ゲームの状態をリセットします
+  resetGame();
+  // モーダルを非表示にします
+  modal.style.display = "none";
+  // ゲームを再開します
+  isGameOver = false;
+  isPaused = false;
+}
+
+// ゲームをリセットする関数 (仮定)
+function resetGame() {
+  // ... ゲームリセットロジック
+}
+}
+
+=======
     // ... 上枠を超えたブロックをチェックするロジック
   }
 
@@ -260,6 +315,3 @@ function isBlockOutOfBound() {
   function resetGame() {
     // ... ゲームリセットロジック
   }
-
-
-  
