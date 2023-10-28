@@ -179,7 +179,7 @@ class Block {
   }
 }
 
-//ブロックの操作//
+//ユーザのブロック操作の実装//
 document.addEventListener('keydown', function(event){
     switch(event.keyCode){
         case 37: //左矢印//
@@ -204,6 +204,35 @@ document.addEventListener('keydown', function(event){
     }
 });
 
+//ゲームの制御器の実装//
+document.getElementById("startpause").addEventListener("click", function(){
+  startPause();
+});
+
+let isGameRunning = false;  // ゲームの状態を追跡, スタートを押すまでは待機
+
+function startPause() {
+    if (isGameRunning) {
+        // 実行中の場合は一時停止
+        pauseGame();
+    } else {
+        // 一時停止中または停止状態の場合ゲームを開始
+        startGame();
+    }
+    isGameRunning = !isGameRunning; //pauseとstartが実行されるとtrueとfalseを反転//
+}
+
+function startGame() {  // ゲーム開始のロジック
+    resetGameBoard();       // ゲームボードをリセットまたは初期化
+    currentBlock = new Block();  // 最初のブロックを生成
+    isGameRunning = true;
+    gameLoop(0);
+}
+
+function pauseGame() {
+    // ゲームを一時停止するロジック
+}
+/////
 
 
 // ブロックが上枠を超えたかどうかをチェックする関数
@@ -220,6 +249,15 @@ function isBlockOutOfBound() {
       showModalWithScore();  // スコアを表示するモーダルを表示します
       return;
     }
+
+  function gameLoop(time) {
+      if (!isGameRunning) return; // ゲームが停止している場合、ループを終了
+      let deltaTime = time - lastTime;
+      lastTime = time;
+      updateGame(deltaTime); // ゲーム状態を更新
+      requestAnimationFrame(gameLoop); // 次のフレームをリクエスト
+    }
+    
 
     // ... ゲームループの残りのロジック
   }
