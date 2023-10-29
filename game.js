@@ -85,7 +85,7 @@ const blockColor = {
 
 class Block {
     constructor(x, y) { //コンストラクタで初期位置は0に//
-        this.x = 0;
+        this.x = Math.floor(gameBoard.board[0].length / 2) - 2;
         this.y = 0;
         this.type=Math.floor(Math.random() * 7);///ブロックのタイプを識別　blockTypeをblockオブジェクトのプロパティとして保存//
         this.pattern = blockPatterns[this.type]; //ブロックの形状を決定//
@@ -293,19 +293,19 @@ function fixBlockToBoard() {
 
   let isGameOver = false;
 
-  // スコアを表示するモーダルを表示する関数
-  function showModalWithScore() {
-    // スコアを計算します
-    let score = calculateScore();
-    // モーダルのコンテンツを更新します
-    document.querySelector('.modal-content').innerHTML = `
-      <h2>Game Over</h2>
-      <p>Your Score: ${score}</p>
-      <button onclick="retry()">Retry</button>
-    `;
-    // モーダルを表示します
-    modal.style.display = "block";
-  }
+// スコアを表示するモーダルを表示する関数
+function showModalWithScore() {
+  // スコアを計算します
+  let score = calculateScore();
+  // モーダルのコンテンツを更新します
+  document.querySelector('.modal-content').innerHTML = `
+    <h2>Game Over</h2>
+    <p>Your Score: ${score}</p>
+    <button onclick="retry()">Retry</button>
+  `;
+  // モーダルを表示します
+  modal.style.display = "block";
+}
 
 let isGameOver = false;
 
