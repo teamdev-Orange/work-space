@@ -83,41 +83,21 @@ const blockColor = {
   "6":"orange",
 }
 
-class Asset {
-  constructor(x=0,y=0){
-    this.type=Math.floor(Math.random() * 7);
-    this.x=x
-    this.y=y
-    //ブロックの移動を判定するときに空のブロックを作る
-    if (this.type>=0) {
-      this.setType(this.type)
-    }
-  }
-
-  setType(BlockType){
-    this.BlockType=BlockType
-    this.BlockColor=Asset.blockColor[BlockType]
-  }
-
-}
-
 class Block {
-    constructor(x, y, blockType) { //コンストラクタで初期位置は0に//
+    constructor(x, y) { //コンストラクタで初期位置は0に//
         this.x = 0;
         this.y = 0;
-        this.type=Math.floor(Math.random() * 7);
-        this.blockType = blockType; ///ブロックのタイプを識別　blockTypeをblockオブジェクトのプロパティとして保存//
-        this.pattern = blockPatterns[blockType]; //ブロックの形状を決定//
-
+        this.type=Math.floor(Math.random() * 7);///ブロックのタイプを識別　blockTypeをblockオブジェクトのプロパティとして保存//
+        this.pattern = blockPatterns[this.type]; //ブロックの形状を決定//
         //ブロックの移動を判定するときに空のブロックを作る
         if (this.type>=0) {
           this.setType(this.type)
         }
     }
 
-    setType(BlockType){
-      this.BlockType=BlockType
-      this.BlockColor=blockColor[BlockType]
+    setType(type){
+      this.BlockType=type
+      this.BlockColor=blockColor[type]
     }
 
 //ブロックの移動メソッド//
@@ -161,10 +141,10 @@ class Block {
   }
 
   //ブロックの形に応じて画像をキャンバスに描画する//
-  drawBlockPattern(ctx, blockType){
-    const pattern = blockPatterns[blockType];
+  drawBlockPattern(ctx){
+    const pattern = blockPatterns[this.BlockType];
     const cellSize = 24;
-    const blockColor=Asset.blockColor[blockType];
+    const blockColor=this.BlockColor;
     for (let y = 0; y < pattern.length; y++) {
       for (let x = 0; x < pattern[y].length; x++) {
         if (pattern[y][x] === 1) {
@@ -206,7 +186,7 @@ document.addEventListener('keydown', function(event){
 });
 
 //ゲームの制御器の実装//
-document.getElementById("startpause").addEventListener("click", function(){
+document.querySelector(".startpause").addEventListener("click", function(){
   startPause();
 });
 
@@ -224,10 +204,10 @@ function startPause() {
 }
 
 function startGame() {  // ゲーム開始のロジック
-    resetGameBoard();       // ゲームボードをリセットまたは初期化
+    //resetGameBoard();       // ゲームボードをリセットまたは初期化
     currentBlock = new Block();  // 最初のブロックを生成
     isGameRunning = true;
-    gameLoop(0);
+    gameLoop(0)
 }
 
 function pauseGame() {
@@ -250,6 +230,11 @@ const dropInterval = 1000; // 1秒ごとにブロックを落とす
 // 2. gameLoop 関数内の更新
 function gameLoop(time) {
     if (!isGameRunning) return;
+    // 1. キャンバスをクリア
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // 2. 現在のブロックを描画
+    console.log(currentBlock.y)
+    currentBlock.drawBlockPattern(ctx, currentBlock.BlockType);
 
     // ブロックの落下処理
     if (time - lastDropTime > dropInterval) {
@@ -263,9 +248,9 @@ function gameLoop(time) {
     }
 
     // 他のゲームの更新ロジック
-    let deltaTime = time - lastTime;
-    lastTime = time;
-    updateGame(deltaTime);
+    // let deltaTime = time - lastTime;
+    // lastTime = time;
+    // updateGame(deltaTime);
 
     requestAnimationFrame(gameLoop);
 }
@@ -308,13 +293,18 @@ function gameLoop(time) {
   }
 
 
-let gameBoard = new GameBoard();
-
 class GameBoard {
   constructor() {
     this.board = [];
     for (let i = 0; i < 20; i++) {
       this.board.push(new Array(10).fill(0));
+    }
+
+     function draw(){
+      // ゲームボードとブロックの描画
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawGameBoard();
+      currentBlock.drawBlockPattern(ctx, currentBlock.type);
     }
   }
 
@@ -331,3 +321,10 @@ class GameBoard {
     this.board.unshift(new Array(10).fill(0));
   }
 }
+
+let gameBoard = new GameBoard();
+
+function drawGameBoard() {
+  // ゲームボードのセルを描画するロジック
+}
+
