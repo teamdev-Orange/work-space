@@ -82,6 +82,7 @@ const blockColor = {
   "5":"purple",
   "6":"orange",
 }
+
 class Asset {
   constructor(x=0,y=0){
     this.type=Math.floor(Math.random() * 7);
@@ -240,27 +241,34 @@ function isBlockOutOfBound() {
     // ... 上枠を超えたブロックをチェックするロジック
   }
 
-  // ゲームループ
-  function gameLoop() {
-    if (isPaused || isGameOver) return;  // ゲームが一時停止またはゲームオーバーの場合、早期に戻ります
+ // 1. グローバル変数と定数の部分に追加
+let lastDropTime = 0;
+const dropInterval = 1000; // 1秒ごとにブロックを落とす
 
-    if (isBlockOutOfBound()) {
-      isGameOver = true;  // ゲームを終了させます
-      showModalWithScore();  // スコアを表示するモーダルを表示します
-      return;
+// ... (他のコード) ...
+
+// 2. gameLoop 関数内の更新
+function gameLoop(time) {
+    if (!isGameRunning) return;
+
+    // ブロックの落下処理
+    if (time - lastDropTime > dropInterval) {
+        if (currentBlock.isValidMove(0, 1, currentBlock.pattern)) {
+            currentBlock.move(0, 1);
+        } else {
+            // ブロックがボードの底や他のブロックに接触した場合の処理
+            // 例: 新しいブロックを生成する、行が完全に埋まっているかを確認するなど
+        }
+        lastDropTime = time;
     }
 
-  function gameLoop(time) {
-      if (!isGameRunning) return; // ゲームが停止している場合、ループを終了
-      let deltaTime = time - lastTime;
-      lastTime = time;
-      updateGame(deltaTime); // ゲーム状態を更新
-      requestAnimationFrame(gameLoop); // 次のフレームをリクエスト
-    }
-    
+    // 他のゲームの更新ロジック
+    let deltaTime = time - lastTime;
+    lastTime = time;
+    updateGame(deltaTime);
 
-    // ... ゲームループの残りのロジック
-  }
+    requestAnimationFrame(gameLoop);
+}
 
   let isGameOver = false;
 
