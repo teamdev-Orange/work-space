@@ -215,13 +215,13 @@ function startGame() {  // ゲーム開始のロジック
 function pauseGame() {
     // ゲームを一時停止するロジック
 }
-/////
+
 
 
 // ブロックが上枠を超えたかどうかをチェックする関数
 function isBlockOutOfBound() {
     // ... 上枠を超えたブロックをチェックするロジック
-  }
+}
 
  // 1. グローバル変数と定数の部分に追加
 let lastDropTime = 0;
@@ -254,8 +254,14 @@ function gameLoop(time) {
     lastTime = time;
     updateGame(deltaTime);
 
+    // ボードと現在のブロックを描画
+    ctx.clearRect(0, 0, canvas.width, canvas.height);  // キャンバスをクリア
+    gameBoard.draw(ctx);
+    currentBlock.drawBlockPattern(ctx, currentBlock.blockType);
+
     requestAnimationFrame(gameLoop);
 }
+
 
 function GameOver() {
   // ゲームオーバーの条件をチェックする
@@ -298,26 +304,45 @@ function fixBlockToBoard() {
     modal.style.display = "block";
   }
 
-  // スコアを計算する関数 (仮定)
-  function calculateScore() {
-    // ... スコア計算ロジック
-  }
+let isGameOver = false;
 
-  // リトライするための関数
-  function retry() {
-    // ゲームの状態をリセットします
-    resetGame();
-    // モーダルを非表示にします
-    modal.style.display = "none";
-    // ゲームを再開します
-    isGameOver = false;
-    isPaused = false;
-  }
+// スコアを表示するモーダルを表示する関数
+function showModalWithScore() {
+  // スコアを計算します
+  let score = calculateScore();
+  // モーダルのコンテンツを更新します
+  document.querySelector('.modal-content').innerHTML = `
+    <h2>Game Over</h2>
+    <p>Your Score: ${score}</p>
+    <button onclick="retry()">Retry</button>
+  `;
+  // モーダルを表示します
+  modal.style.display = "block";
+}
 
-  // ゲームをリセットする関数 (仮定)
-  function resetGame() {
-    // ... ゲームリセットロジック
-  }
+
+// スコアを計算する関数 (仮定)
+function calculateScore() {
+  // ... スコア計算ロジック
+}
+
+// リトライするための関数
+function retry() {
+  // ゲームの状態をリセットします
+  resetGame();
+  // モーダルを非表示にします
+  modal.style.display = "none";
+  // ゲームを再開します
+  isGameOver = false;
+  isPaused = false;
+}
+
+// ゲームをリセットする関数 (仮定)
+function resetGame() {
+  // ... ゲームリセットロジック
+}
+
+
 
 
 let gameBoard = new GameBoard();
@@ -343,6 +368,21 @@ class GameBoard {
   clearRow(rowNumber) {
     this.board.splice(rowNumber, 1);
     this.board.unshift(new Array(10).fill(0));
+  }
+
+  draw(ctx) {
+    const cellSize = 24;  // 1セルのサイズ
+    for (let y = 0; y < this.board.length; y++) {
+        for (let x = 0; x < this.board[y].length; x++) {
+            const cellValue = this.board[y][x];
+            if (cellValue !== 0) {
+                ctx.fillStyle = blockColor[cellValue.toString()];
+                ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                ctx.strokeStyle = 'black';
+                ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+            }
+        }
+    }
   }
 }
 
