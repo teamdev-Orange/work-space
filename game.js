@@ -83,24 +83,6 @@ const blockColor = {
   "6":"orange",
 }
 
-class Asset {
-  constructor(x=0,y=0){
-    this.type=Math.floor(Math.random() * 7);
-    this.x=x
-    this.y=y
-    //ブロックの移動を判定するときに空のブロックを作る
-    if (this.type>=0) {
-      this.setType(this.type)
-    }
-  }
-
-  setType(BlockType){
-    this.BlockType=BlockType
-    this.BlockColor=Asset.blockColor[BlockType]
-  }
-
-}
-
 class Block {
     constructor(x, y, blockType) { //コンストラクタで初期位置は0に//
         this.x = 0;
@@ -256,8 +238,13 @@ function gameLoop(time) {
         if (currentBlock.isValidMove(0, 1, currentBlock.pattern)) {
             currentBlock.move(0, 1);
         } else {
-            // ブロックがボードの底や他のブロックに接触した場合の処理
-            // 例: 新しいブロックを生成する、行が完全に埋まっているかを確認するなど
+          // ブロックが移動できない場合、固定して新しいブロックを生成
+            fixBlocklToBoard();
+            currentBlock = new Block();
+            if (isGameOver()) {
+              endGame();
+              return;
+            }
         }
         lastDropTime = time;
     }
@@ -275,6 +262,48 @@ function gameLoop(time) {
     requestAnimationFrame(gameLoop);
 }
 
+
+function GameOver() {
+  // ゲームオーバーの条件をチェックする
+  return gameBoard.board[0].some(cell => cell !== 0);
+}
+
+function endGame() {
+  // ゲームオーバー時の処理
+  isGameRunning = false;
+  showModalWithScore();
+}
+
+function fixBlockToBoard() {
+  // currentBlockの各セルをゲームボードに追加する
+  for (let y = 0; y < currentBlock.pattern.length; y++) {
+      for (let x = 0; x < currentBlock.pattern[y].length; x++) {
+          if (currentBlock.pattern[y][x]) {
+              gameBoard.board[currentBlock.y + y][currentBlock.x + x] = 1;
+          }
+      }
+  }
+
+  // 完全に埋まった行をクリア
+  gameBoard.checkFullRows();
+}
+
+  let isGameOver = false;
+
+  // スコアを表示するモーダルを表示する関数
+  function showModalWithScore() {
+    // スコアを計算します
+    let score = calculateScore();
+    // モーダルのコンテンツを更新します
+    document.querySelector('.modal-content').innerHTML = `
+      <h2>Game Over</h2>
+      <p>Your Score: ${score}</p>
+      <button onclick="retry()">Retry</button>
+    `;
+    // モーダルを表示します
+    modal.style.display = "block";
+  }
+
 let isGameOver = false;
 
 // スコアを表示するモーダルを表示する関数
@@ -290,6 +319,7 @@ function showModalWithScore() {
   // モーダルを表示します
   modal.style.display = "block";
 }
+
 
 // スコアを計算する関数 (仮定)
 function calculateScore() {
@@ -329,6 +359,8 @@ class GameBoard {
     for (let y = 0; y < this.board.length; y++) {
       if (this.board[y].every(cell => cell === 1)) {
         this.clearRow(y);
+        this.board.splice(y, 1);
+        this.board.unshift(new Array(10).fill(0));
       }
     }
   }
@@ -352,4 +384,15 @@ class GameBoard {
         }
     }
   }
+}
+
+function draw() {
+  // ゲームボードとブロックの描画
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawGameBoard();
+  currentBlock.drawBlockPattern(ctx, currentBlock.type);
+}
+
+function drawGameBoard() {
+  // ゲームボードのセルを描画するロジック
 }
