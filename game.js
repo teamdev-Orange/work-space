@@ -291,7 +291,7 @@ function fixBlockToBoard() {
   gameBoard.checkFullRows();
 }
 
-  let isGameOver = false;
+let isGameOver = false;
 
 // スコアを表示するモーダルを表示する関数
 function showModalWithScore() {
@@ -306,8 +306,6 @@ function showModalWithScore() {
   // モーダルを表示します
   modal.style.display = "block";
 }
-
-let isGameOver = false;
 
 // スコアを表示するモーダルを表示する関数
 function showModalWithScore() {
