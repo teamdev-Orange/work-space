@@ -20,7 +20,7 @@ window.onclick = function(event) {
     }
 }
 
-const canvas = document.querySelector("canvas")
+const canvas = document.querySelector(".main-board")
 const ctx = canvas.getContext("2d");
 const blockPatterns = {
   "0": [
@@ -131,7 +131,7 @@ class Block {
             testX + x >= canvas.width ||
             testX + x < 0 ||
             // 他のブロックとの衝突 ここのgameBoardは仮置き
-            gameBoard.board[testY + y][testX + x] // この部分をgameBoardの状態を考慮に入れて更新
+            canvas.board[testY + y][testX + x] // この部分をgameBoardの状態を考慮に入れて更新
           )) {
           return false;
         }
