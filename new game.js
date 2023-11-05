@@ -40,7 +40,7 @@
 
 
 // 画面本体
-
+const SCREEN = [];
 
 
 // タイマーID
@@ -48,6 +48,8 @@
 
 
 // ゲームオーバーフラグ
+let isGameOver = false
+
 
 
 
@@ -74,6 +76,17 @@
 
 
 // ゲームオーバー時のメッセージ
+if (isGameOver) {
+  const GAME_OVER_MESSAGE = "GAME OVER";
+  CANVAS_2D.font = "40px 'dotgothic16";
+  const width = CANVAS_2D.measureText(GAME_OVER_MESSAGE).width;
+  const x = CANVAS_WIDTH / 2 - width / 2;
+  const y = CANVAS_HEIGHT / 2 - 20;
+  CANVAS_2D.fillStyle = "black";
+  CANVAS_2D.fillText(GAME_OVER_MESSAGE, x, y);
+  gameSound.pause();
+  gameOverSound.play();
+}
 
 
 
@@ -139,16 +152,20 @@
 
 
 // スコア計算結果
-
+let result = 0;
 
 // スコアを計算する関数
-
+function calculateScore(lineCount) {
+  result = lineCount * 100;
+}
 
 
 // スコアと消したライン数の表示を行う関数
-
-
- // ここでメソットごと代入するとループ2回まわるので変数で代入
+function drawInfo() {
+  // ここでメソットごと代入するとループ2回まわるので変数で代入
+  document.getElementById("scoreCount").innerHTML = result;
+  document.getElementById("lineCount").innerHTML = lineCount;
+}
 
 
  // 落下処理
