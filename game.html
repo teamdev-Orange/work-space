@@ -22,6 +22,7 @@
 
 <div style="text-align: center;">
     <button class="startpause">Start/Pause</button>
+    <button class="pause">Pause</button>
 </div>
 
 <div class="game-container">
@@ -39,7 +40,13 @@
         <p>Rotate: Space key</p>
     </div>
 </div>
-<script src="game.js"></script>
-<script src="asset.js" type="module"></script>
+<!-- ゲーム音楽 -->
+<audio src="./sound/retrogamecenter3.mp3" id="gameSound"></audio>
+<audio src="./sound/gameover2_8bit.mp3" id="gameOver"></audio>
+<audio src="./sound/決定ボタンを押す42.mp3" id="gameStartSound"></audio>
+<audio src="./sound/キャンセル3.mp3" id="manualSound"></audio>
+<audio src="./sound/キャンセル7.mp3" id="pauseSound"></audio>
+<audio src="./sound/ゲージ回復1.mp3" id="scoreUpSound"></audio>
+<script src="new game.js"></script>
 </body>
 </html>
