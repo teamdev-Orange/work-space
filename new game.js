@@ -18,7 +18,7 @@ const PLAY_SCREEN_WIDTH = 10;
 const PLAY_SCREEN_HEIGHT = 20;
 
 // キャンバスIDの取得
-const CANVAS = document.getElementById("canvas");
+const CANVAS = document.querySelector(".main-board");
 
 // 2dコンテキストの取得
 const CANVAS_2D = CANVAS.getContext("2d");
@@ -238,7 +238,9 @@ document.onkeydown = (e) => {
       if (canMove(1, 0)) tetroMinoDistanceX++;
       break;
     case "ArrowDown":
-      if (canMove(0, 1)) tetroMinoDistanceY++;
+      while (canMove(0,1)) {
+        tetroMinoDistanceY++;
+      }
       break;
     case "ArrowUp":
       let newRTet = createRightRotateTet();
@@ -262,39 +264,39 @@ document.onkeydown = (e) => {
   drawPlayScreen();
 };
 
-// HTMLのボタン要素に対応するIDを指定
-const leftButton = document.getElementById("leftButton");
-const rightButton = document.getElementById("rightButton");
-const downButton = document.getElementById("downButton");
-const upButton = document.getElementById("upButton");
+// // HTMLのボタン要素に対応するIDを指定
+// const leftButton = document.getElementById("leftButton");
+// const rightButton = document.getElementById("rightButton");
+// const downButton = document.getElementById("downButton");
+// const upButton = document.getElementById("upButton");
 
-// ボタンをクリックしたときの処理を定義
-leftButton.addEventListener("click", () => {
-  if (isGameOver) return;
-  if (canMove(-1, 0)) tetroMinoDistanceX--;
-  drawPlayScreen();
-});
+// // ボタンをクリックしたときの処理を定義
+// leftButton.addEventListener("click", () => {
+//   if (isGameOver) return;
+//   if (canMove(-1, 0)) tetroMinoDistanceX--;
+//   drawPlayScreen();
+// });
 
-rightButton.addEventListener("click", () => {
-  if (isGameOver) return;
-  if (canMove(1, 0)) tetroMinoDistanceX++;
-  drawPlayScreen();
-});
+// rightButton.addEventListener("click", () => {
+//   if (isGameOver) return;
+//   if (canMove(1, 0)) tetroMinoDistanceX++;
+//   drawPlayScreen();
+// });
 
-downButton.addEventListener("click", () => {
-  if (isGameOver) return;
-  if (canMove(0, 1)) tetroMinoDistanceY++;
-  drawPlayScreen();
-});
+// downButton.addEventListener("click", () => {
+//   if (isGameOver) return;
+//   if (canMove(0, 1)) tetroMinoDistanceY++;
+//   drawPlayScreen();
+// });
 
-upButton.addEventListener("click", () => {
-  if (isGameOver) return;
-  let newRTet = createRightRotateTet();
-  if (canMove(0, 0, newRTet)) {
-    tetroMino = newRTet;
-  }
-  drawPlayScreen();
-});
+// upButton.addEventListener("click", () => {
+//   if (isGameOver) return;
+//   let newRTet = createRightRotateTet();
+//   if (canMove(0, 0, newRTet)) {
+//     tetroMino = newRTet;
+//   }
+//   drawPlayScreen();
+// });
 
 // テトリミノを固定する
 const fixTet = () => {
@@ -334,7 +336,7 @@ const clearLine = () => {
     }
   }
   calculateScore(lineCount);
-  drawInfo();
+  // drawInfo();
 };
 
 // 消したライン数
@@ -348,11 +350,11 @@ function calculateScore(lineCount) {
 }
 
 // スコアと消したライン数の表示を行う関数
-function drawInfo() {
-  // ここでメソットごと代入するとループ2回まわるので変数で代入
-  document.getElementById("scoreCount").innerHTML = result;
-  document.getElementById("lineCount").innerHTML = lineCount;
-}
+// function drawInfo() {
+//   // ここでメソットごと代入するとループ2回まわるので変数で代入
+//   document.getElementById("scoreCount").innerHTML = result;
+//   document.getElementById("lineCount").innerHTML = lineCount;
+// }
 
 // 落下処理
 const dropTet = () => {
@@ -378,7 +380,7 @@ const dropTet = () => {
 };
 
 // 画面を真ん中にする
-const BOARD = document.getElementById("board");
+const BOARD = document.querySelector(".main-board");
 BOARD.style.width = CANVAS_WIDTH + "px"; // ボードの幅をキャンバスの幅に合わせる
 
 // テトリミノの初期位置を設定する
@@ -387,11 +389,11 @@ const createTetPosition = () => {
   tetroMinoDistanceY = 0;
 };
 
-const startButton = document.getElementById("start");
+const startButton = document.querySelector(".startpause");
 // ゲームスタート時の初期化
 startButton.addEventListener("click", function () {
   console.log(isGameOver);
-  gameStartSound.play();
+  // gameStartSound.play();
   gameSound.play();
   startButton.disabled = true;
   if (isGameOver) {
@@ -403,14 +405,14 @@ startButton.addEventListener("click", function () {
 });
 
 // ゲームリスタート時の初期化
-const restartButton = document.getElementById("restart");
-restartButton.addEventListener("click", function () {
-  reInit();
-  startButton.disabled = true;
-});
+// const restartButton = document.getElementById("restart");
+// restartButton.addEventListener("click", function () {
+//   reInit();
+//   startButton.disabled = true;
+// });
 
 // Pauseボタンの取得
-const pauseButton = document.getElementById("pause");
+const pauseButton = document.querySelector(".pause");
 pauseButton.disabled = true;
 
 // ポーズ状態のフラグ
@@ -503,31 +505,31 @@ const reInit = () => {
   pauseButton.disabled = false;
 };
 
-// モーダルが開かれたときの処理 (JQueryを使用)
-$("#manualModal, #confirmModal").on("show.bs.modal", function () {
-  console.log("modal opened");
-  clearInterval(timerId);
-  isPaused = true;
-  pauseButton.innerText = "再開 ▶";
-  manualSound.play();
-  if (isGameOn) {
-    gameSound.pause();
-  }
-});
+// // モーダルが開かれたときの処理 (JQueryを使用)
+// $("#manualModal, #confirmModal").on("show.bs.modal", function () {
+//   console.log("modal opened");
+//   clearInterval(timerId);
+//   isPaused = true;
+//   pauseButton.innerText = "再開 ▶";
+//   manualSound.play();
+//   if (isGameOn) {
+//     gameSound.pause();
+//   }
+// });
 
-// モーダルが閉じたときの処理 (JQueryを使用)
-$("#manualModal, #confirmModal").on("hidden.bs.modal", function () {
-  console.log("modal closed");
-  if (!isGameOver) {
-    // ゲームオーバーでなければ、ゲームのタイマーを再開
-    timerId = setInterval(dropTet, DROP_SPEED);
-    isPaused = false;
-    pauseButton.innerHTML = '<i class="fas fa-pause"></i> 一時停止';
-    if (isGameOn) {
-      gameSound.play();
-    }
-  }
-});
+// // モーダルが閉じたときの処理 (JQueryを使用)
+// $("#manualModal, #confirmModal").on("hidden.bs.modal", function () {
+//   console.log("modal closed");
+//   if (!isGameOver) {
+//     // ゲームオーバーでなければ、ゲームのタイマーを再開
+//     timerId = setInterval(dropTet, DROP_SPEED);
+//     isPaused = false;
+//     pauseButton.innerHTML = '<i class="fas fa-pause"></i> 一時停止';
+//     if (isGameOn) {
+//       gameSound.play();
+//     }
+//   }
+// });
 
 // //次のテトリミノを表示する
 // // 次のテトリミノを表示するキャンバス要素を取得
@@ -609,4 +611,6 @@ function toggleMute() {
 }
 
 // ミュートボタンがクリックされたときにミュートをトグル
-muteButton.addEventListener("click", toggleMute);
+// muteButton.addEventListener("click", toggleMute);
+
+
