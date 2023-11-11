@@ -614,3 +614,26 @@ function toggleMute() {
 // muteButton.addEventListener("click", toggleMute);
 
 
+// "How to Play"ボタンを取得
+const instructionButton = document.querySelector('.instruction');
+// モーダルウィンドウを取得
+const modal = document.getElementById('modal');
+// モーダルウィンドウの閉じるボタンを取得
+const closeButton = document.querySelector('.close');
+
+// "How to Play"ボタンがクリックされたときにモーダルを表示
+instructionButton.addEventListener('click', function() {
+    modal.style.display = 'block';
+});
+
+// 閉じるボタンがクリックされたときにモーダルを非表示
+closeButton.addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+
+// モーダル外の領域をクリックしたときにモーダルを非表示
+window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+});

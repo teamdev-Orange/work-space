@@ -1,5 +1,5 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Press Start 2P', cursive;
     text-align: center;
     overflow: hidden;
     transform: scale(0.95); /* Adjust this value as needed */
@@ -16,7 +16,7 @@ body {
     margin-bottom: 20px;
 }
 
- .modal {
+.modal {
     display: none; 
     position: fixed; 
     z-index: 1; 
@@ -34,6 +34,10 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 80%; 
+}
+
+.modal-content, .close, .game-container, .main-board, .next-block {
+    font-family: 'Press Start 2P', cursive;
 }
 
 .close {
@@ -74,3 +78,5 @@ body {
      background-color: #9e9e9e;
      border: solid black 2px;
  }
+
+ 
