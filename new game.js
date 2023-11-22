@@ -312,11 +312,11 @@ const fixTet = () => {
 
 // そろった行を消す
 const clearLine = () => {
-  // 一列になっている場所をスクリーン上から調べていく
+  let lineCount = 0; // この動作で消去された行数を数える
+
+  // 各行が完全に埋まっているかチェック
   for (let y = 0; y < PLAY_SCREEN_HEIGHT; y++) {
-    // 行を消すフラグを立てる
     let isClearLine = true;
-    // 行に0が入っている（＝そろっていない）かを調べていく
     for (let x = 0; x < PLAY_SCREEN_WIDTH; x++) {
       if (SCREEN[y][x] === 0) {
         isClearLine = false;
@@ -325,36 +325,49 @@ const clearLine = () => {
     }
     if (isClearLine) {
       scoreUpSound.play();
-      // そろった行から上へ向かってforループしていく
+      // 消去された行より上のすべての行を下に移動
       for (let newY = y; newY > 0; newY--) {
         for (let newX = 0; newX < PLAY_SCREEN_WIDTH; newX++) {
-          // 一列上の情報をコピーする
           SCREEN[newY][newX] = SCREEN[newY - 1][newX];
         }
       }
-      lineCount += 1;
+      lineCount++; // 消去された行数をカウントアップ
+      y--; // 同じ行インデックスを再チェック
     }
   }
-  calculateScore(lineCount);
-  // drawInfo();
+
+  // この動作で消去された行数に基づいてスコアを更新
+  switch (lineCount) {
+    case 1:
+      result += 10;
+      break;
+    case 2:
+      result += 30;
+      break;
+    case 3:
+      result += 60;
+      break;
+    case 4:
+      result += 100;
+      break;
+    default:
+      break; // 行が消去されなかった場合は点数なし
+  }
+
+  // 表示されているスコアを更新
+  drawInfo();
 };
+
+function drawInfo() {
+  document.getElementById("scoreDisplay").innerText = result;
+}
+
 
 // 消したライン数
 let lineCount = 0;
 // スコア計算結果
 let result = 0;
 
-// スコアを計算する関数
-function calculateScore(lineCount) {
-  result = lineCount * 100;
-}
-
-// スコアと消したライン数の表示を行う関数
-// function drawInfo() {
-//   // ここでメソットごと代入するとループ2回まわるので変数で代入
-//   document.getElementById("scoreCount").innerHTML = result;
-//   document.getElementById("lineCount").innerHTML = lineCount;
-// }
 
 // 落下処理
 const dropTet = () => {
@@ -465,6 +478,9 @@ const init = () => {
   drawPlayScreen();
   isGameOn = true;
   pauseButton.disabled = false;
+
+  result = 0; // スコアを0にリセット
+  drawInfo(); // スコア表示を更新
 };
 
 // reInit関数
