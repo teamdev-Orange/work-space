@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>テトリス</title>
 </head>
 <body>
     <div class="container">
-        <h1>TETRIS</h1>  <!--TETLISではなくTETRISでした-->
+        <h1 class="game-title">TETRIS</h1>
         <a href="game.html">
-            <button id="startButton">Start</button>
+            <button id="startButton" class="start-btn">Start</button>
         </a>
         <div class="level-selector">
-            <label for="levelSelect">level:</label>
-            <select id="levelSelect">
+            <label for="levelSelect">Level:</label>
+            <select id="levelSelect" class="level-select">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
